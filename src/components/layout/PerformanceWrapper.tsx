@@ -1,29 +1,18 @@
-/* Axiom Digital Enterprise Boilerplate | Best or Nothing */
-
-/**
- * PerformanceWrapper — Layout component that enforces lazy-loading,
- * critical CSS pathing, and scroll-reveal animations.
- *
- * Wraps page sections to provide:
- * - Intersection-based lazy rendering
- * - Framer Motion entrance animations
- * - Configurable animation variants
- */
+/* Axiom Digital | Logic Verified | Best or Nothing */
 
 'use client';
 
-import { type ReactNode } from 'react';
+import { type ReactNode, Children, isValidElement, cloneElement, forwardRef } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { useIntersectionObserver, useReducedMotion } from '@/hooks';
-import { fadeInUp } from '@/lib/animations';
 
 interface PerformanceWrapperProps {
   children: ReactNode;
   className?: string;
-  variants?: Variants;
   threshold?: number;
   rootMargin?: string;
-  delay?: number;
+  delayStart?: number;
+  staggerDelay?: number;
   as?: 'div' | 'section' | 'article' | 'main';
   id?: string;
 }
@@ -31,10 +20,10 @@ interface PerformanceWrapperProps {
 export function PerformanceWrapper({
   children,
   className = '',
-  variants = fadeInUp,
   threshold = 0.1,
   rootMargin = '0px 0px -80px 0px',
-  delay = 0,
+  delayStart = 0,
+  staggerDelay = 0.05, // 50ms orchestrator delay
   as: Tag = 'div',
   id,
 }: PerformanceWrapperProps) {
@@ -46,7 +35,6 @@ export function PerformanceWrapper({
 
   const prefersReducedMotion = useReducedMotion();
 
-  /* Bypass animations if user prefers reduced motion */
   if (prefersReducedMotion) {
     return (
       <Tag className={className} id={id}>
@@ -55,25 +43,60 @@ export function PerformanceWrapper({
     );
   }
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: delayStart,
+        staggerChildren: staggerDelay,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1], // Cinematic easing
+      },
+    },
+  };
+
+  const StaggeredChild = forwardRef<HTMLElement, { children: ReactNode; className?: string }>(
+    ({ children, className }, childRef) => {
+      return (
+        <motion.div ref={childRef as any} variants={itemVariants} className={className}>
+          {children}
+        </motion.div>
+      );
+    }
+  );
+  StaggeredChild.displayName = 'StaggeredChild';
+
+  // Orchestrate children to map them into staggered wrappers independently
+  const orchestratedChildren = Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+    return <StaggeredChild>{child}</StaggeredChild>;
+  });
+
   return (
     <motion.div
       ref={ref}
       className={className}
       id={id}
-      variants={variants}
+      variants={containerVariants}
       initial="hidden"
       animate={isIntersecting ? 'visible' : 'hidden'}
-      transition={{ delay }}
     >
-      {children}
+      {orchestratedChildren}
     </motion.div>
   );
 }
 
-/**
- * CriticalSection — Marks a section as above-the-fold critical.
- * Renders immediately without lazy-loading or intersection logic.
- */
 interface CriticalSectionProps {
   children: ReactNode;
   className?: string;

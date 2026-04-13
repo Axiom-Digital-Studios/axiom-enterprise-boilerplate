@@ -1,65 +1,82 @@
-/* Axiom Digital Enterprise Boilerplate | Best or Nothing */
+/* Axiom Digital | Logic Verified | Best or Nothing */
 
-/**
- * Axiom API Configuration — Centralized fetch wrapper
- * with timeout, retry logic, and error normalization.
- */
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
-const DEFAULT_TIMEOUT = 10000; // 10 seconds
+export interface AxiomResponse<T> {
+  data: T | null;
+  error: string | null;
+  status: number;
+}
 
 interface FetchOptions extends RequestInit {
   timeout?: number;
   retries?: number;
 }
 
-/**
- * Axiom-standard fetch wrapper with timeout and retry.
- */
+const DEFAULT_TIMEOUT = 10000;
+const MAX_RETRIES = 3;
+
 export async function axiomFetch<T>(
   endpoint: string,
   options: FetchOptions = {}
-): Promise<T> {
-  const { timeout = DEFAULT_TIMEOUT, retries = 2, ...fetchOptions } = options;
+): Promise<AxiomResponse<T>> {
+  const { timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES, ...fetchOptions } = options;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-  const defaultHeaders: HeadersInit = {
-    'Content-Type': 'application/json',
-  };
-
+  let attempt = 0;
   let lastError: Error | null = null;
+  let lastStatus = 0;
 
-  for (let attempt = 0; attempt <= retries; attempt++) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}${endpoint}`;
+
+  while (attempt <= retries) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+
     try {
-      const response = await fetch(`${API_BASE}${endpoint}`, {
+      const response = await fetch(url, {
         ...fetchOptions,
-        headers: { ...defaultHeaders, ...fetchOptions.headers },
+        headers: {
+          'Content-Type': 'application/json',
+          ...fetchOptions.headers,
+        },
         signal: controller.signal,
       });
 
-      clearTimeout(timeoutId);
+      clearTimeout(id);
+      lastStatus = response.status;
 
       if (!response.ok) {
-        throw new Error(
-          `API Error: ${response.status} ${response.statusText}`
-        );
+        throw new Error(response.statusText || `HTTP Error ${response.status}`);
       }
 
-      return (await response.json()) as T;
-    } catch (error) {
-      lastError = error as Error;
+      // 204 No Content handling
+      if (response.status === 204) {
+        return { data: null, error: null, status: response.status };
+      }
 
-      if (attempt < retries) {
-        // Exponential backoff: 500ms, 1000ms, 2000ms...
-        await new Promise((resolve) =>
-          setTimeout(resolve, 500 * Math.pow(2, attempt))
-        );
+      const data = (await response.json()) as T;
+      return { data, error: null, status: response.status };
+    } catch (error) {
+      clearTimeout(id);
+      const err = error as Error;
+      lastError = err;
+
+      // Do not retry on intentional aborts outside of timeouts
+      if (err.name === 'AbortError' && attempt === 0) {
+        lastError = new Error('Request Timeout');
+      }
+
+      attempt++;
+      if (attempt <= retries) {
+        // Exponential backoff: 500ms, 1000ms, 2000ms
+        const delay = 500 * Math.pow(2, attempt - 1);
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
   }
 
-  clearTimeout(timeoutId);
-  throw lastError || new Error('API request failed');
+  return {
+    data: null,
+    error: lastError?.message || 'Network request failed',
+    status: lastStatus || 500,
+  };
 }

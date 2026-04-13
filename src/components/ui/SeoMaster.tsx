@@ -1,41 +1,29 @@
-/* Axiom Digital Enterprise Boilerplate | Best or Nothing */
-
-/**
- * SeoMaster — Enterprise metadata handler for dynamic JSON-LD,
- * OpenGraph, Twitter Cards, and canonical URL management.
- *
- * Usage:
- *   import { generateMetadata } from '@/components/ui/SeoMaster';
- *   export const metadata = generateMetadata({ title: 'Services', ... });
- */
+/* Axiom Digital | Logic Verified | Best or Nothing */
 
 import type { Metadata } from 'next';
-import { DEFAULT_META } from '@/lib/constants';
+import { AXIOM_CONFIG } from '@/lib/constants';
 import type { SeoProps } from '@/types';
 
-/**
- * Generates Next.js Metadata object with JSON-LD, OG, and Twitter cards.
- */
 export function generateMetadata(props: Partial<SeoProps> = {}): Metadata {
   const {
     title,
-    description = DEFAULT_META.description,
+    description = AXIOM_CONFIG.metadata.description,
     canonical,
-    ogImage = DEFAULT_META.ogImage,
+    ogImage = AXIOM_CONFIG.metadata.ogImage,
     ogType = 'website',
     noIndex = false,
   } = props;
 
   const fullTitle = title
-    ? `${title} | ${DEFAULT_META.title.split(' | ')[0]}`
-    : DEFAULT_META.title;
+    ? `${title} | ${AXIOM_CONFIG.brand.name}`
+    : AXIOM_CONFIG.metadata.title;
 
-  const url = canonical || DEFAULT_META.siteUrl;
+  const url = canonical || AXIOM_CONFIG.metadata.siteUrl;
 
   return {
     title: fullTitle,
     description,
-    metadataBase: new URL(DEFAULT_META.siteUrl),
+    metadataBase: new URL(AXIOM_CONFIG.metadata.siteUrl),
     alternates: {
       canonical: url,
     },
@@ -43,7 +31,7 @@ export function generateMetadata(props: Partial<SeoProps> = {}): Metadata {
       title: fullTitle,
       description,
       url,
-      siteName: DEFAULT_META.title.split(' | ')[0],
+      siteName: AXIOM_CONFIG.brand.name,
       images: [
         {
           url: ogImage,
@@ -52,7 +40,7 @@ export function generateMetadata(props: Partial<SeoProps> = {}): Metadata {
           alt: fullTitle,
         },
       ],
-      locale: DEFAULT_META.locale,
+      locale: AXIOM_CONFIG.metadata.locale,
       type: ogType,
     },
     twitter: {
@@ -60,7 +48,7 @@ export function generateMetadata(props: Partial<SeoProps> = {}): Metadata {
       title: fullTitle,
       description,
       images: [ogImage],
-      creator: DEFAULT_META.twitterHandle,
+      creator: AXIOM_CONFIG.social.twitter.handle,
     },
     robots: {
       index: !noIndex,
@@ -76,10 +64,6 @@ export function generateMetadata(props: Partial<SeoProps> = {}): Metadata {
   };
 }
 
-/**
- * Generates JSON-LD structured data for a page.
- * Renders as a <script> tag in the document head.
- */
 interface JsonLdProps {
   type: 'Organization' | 'WebSite' | 'WebPage' | 'Service' | 'Article';
   data: Record<string, unknown>;
@@ -100,22 +84,19 @@ export function JsonLd({ type, data }: JsonLdProps) {
   );
 }
 
-/**
- * Pre-built Organization JSON-LD for the Axiom brand.
- */
 export function AxiomOrganizationJsonLd() {
   return (
     <JsonLd
       type="Organization"
       data={{
-        name: 'Axiom Digital',
-        url: DEFAULT_META.siteUrl,
-        logo: `${DEFAULT_META.siteUrl}/assets/brand/axiom-logo-dark.svg`,
-        description: DEFAULT_META.description,
+        name: AXIOM_CONFIG.brand.name,
+        url: AXIOM_CONFIG.metadata.siteUrl,
+        logo: `${AXIOM_CONFIG.metadata.siteUrl}/assets/brand/axiom-logo-dark.svg`,
+        description: AXIOM_CONFIG.metadata.description,
         sameAs: [
-          'https://twitter.com/axiomdigital',
-          'https://linkedin.com/company/axiomdigital',
-          'https://github.com/axiomdigital',
+          AXIOM_CONFIG.social.twitter.url,
+          AXIOM_CONFIG.social.linkedin.url,
+          AXIOM_CONFIG.social.github.url,
         ],
       }}
     />

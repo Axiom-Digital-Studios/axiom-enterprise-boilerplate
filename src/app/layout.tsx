@@ -10,7 +10,7 @@ import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
 import { AxiomHeader } from '@/components/layout/AxiomHeader';
 import { AxiomFooter } from '@/components/layout/AxiomFooter';
 import { AxiomOrganizationJsonLd } from '@/components/ui/SeoMaster';
-import { DEFAULT_META } from '@/lib/constants';
+import { DEFAULT_META, AXIOM_CONFIG } from '@/lib/constants';
 import './globals.css';
 
 /* ── Font Configuration ───────────────────────────────── */
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: DEFAULT_META.title,
     description: DEFAULT_META.description,
-    creator: DEFAULT_META.twitterHandle,
+    creator: AXIOM_CONFIG.social.twitter.handle,
   },
   robots: {
     index: true,
