@@ -8,6 +8,7 @@
 import { HeroSection, Features } from '@/components/sections';
 import { PerformanceWrapper } from '@/components/layout';
 import { generateMetadata as seoMeta } from '@/components/ui/SeoMaster';
+import { Copy } from 'lucide-react';
 
 export const metadata = seoMeta({
   title: 'Home',
@@ -39,10 +40,13 @@ export default function HomePage() {
               This boilerplate is your foundation. Clone it, customize it,
               and deploy enterprise-grade experiences in hours — not months.
             </p>
-            <div className="relative mt-10 flex justify-center">
-              <code className="rounded-xl border border-white/[0.08] bg-axiom-void px-8 py-4 font-mono text-sm text-accent-primary tracking-wider">
-                npx create-axiom-app my-project
-              </code>
+            <div className="relative mt-10">
+              <div className="flex items-center justify-between bg-[#050505] border border-white/10 rounded-lg px-8 py-4 mx-auto max-w-md shadow-2xl transition-colors hover:border-white/20 cursor-pointer group">
+                <code className="font-mono text-sm text-neutral-400">
+                  npx create-axiom-app my-project
+                </code>
+                <Copy className="h-4 w-4 text-neutral-500 transition-colors group-hover:text-axiom-ivory" />
+              </div>
             </div>
           </div>
         </div>

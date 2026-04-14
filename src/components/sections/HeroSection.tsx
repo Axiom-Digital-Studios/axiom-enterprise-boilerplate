@@ -56,12 +56,12 @@ export function HeroSection() {
         {/*
           text-6xl → md:text-8xl → lg:text-[120px]: Responsive scale
           font-black: Maximum weight for brutalist "slab" presence
-          tracking-[-0.06em]: Letterforms collapse into editorial unity
+          tracking-[-0.05em]: Pulls letters closer for a high-end editorial look
           leading-[0.9]: Compressed line-height — the "Agency Flex" signature
         */}
         <motion.h1
           variants={staggerItem}
-          className="mx-auto max-w-5xl text-6xl md:text-8xl lg:text-[120px] font-display font-black tracking-[-0.06em] leading-[0.9] text-white"
+          className="mx-auto max-w-5xl text-6xl md:text-8xl lg:text-[120px] font-display font-black tracking-[-0.05em] leading-[0.9] text-white"
         >
           Built for Scale.{' '}
           <br className="hidden sm:block" />
@@ -84,14 +84,14 @@ export function HeroSection() {
         >
           <Link
             href="/contact"
-            className="group inline-flex justify-center items-center gap-3 rounded-full bg-white px-12 py-5 text-sm font-bold tracking-widest uppercase text-black transition-all duration-500 hover:scale-105 shadow-[0_0_60px_rgba(250,250,250,0.12)]"
+            className="group inline-flex justify-center items-center gap-3 rounded-full bg-white px-12 py-5 text-xs font-bold tracking-[0.2em] uppercase text-black transition-all duration-500 hover:scale-105 shadow-[0_0_60px_rgba(250,250,250,0.12)]"
           >
             Start Your Project
             <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1.5" />
           </Link>
           <Link
             href="/portfolio"
-            className="inline-flex justify-center items-center rounded-full border border-white/10 px-12 py-5 text-sm font-semibold tracking-widest uppercase text-white transition-all duration-500 hover:border-white/30 hover:bg-white/5"
+            className="inline-flex justify-center items-center rounded-full border border-white/10 px-12 py-5 text-xs font-bold tracking-[0.2em] uppercase text-white transition-all duration-500 hover:border-white/30 hover:bg-white/5"
           >
             View Portfolio
           </Link>
