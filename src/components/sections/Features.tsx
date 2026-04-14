@@ -150,26 +150,27 @@ export function Features() {
 
           {/* ── Card 3: Full-width bottom banner ── */}
           <div className="
-            group relative flex flex-col justify-between h-full min-h-[420px]
+            group relative flex flex-col md:flex-row items-start md:items-center justify-between
             md:col-span-2 lg:col-span-3
             overflow-hidden rounded-3xl
             border border-white/[0.05] bg-[#0A0A0A]
-            p-12 shadow-2xl
+            p-10 md:p-12 shadow-2xl
             transition-all duration-500 hover:border-white/[0.15]
           ">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-            <div className="relative z-10 w-full text-left">
-              <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 border border-white/10 transition-all duration-500 group-hover:border-white/[0.2] group-hover:bg-white/[0.1]">
-                <Layers className="h-6 w-6 text-axiom-ivory" />
+            
+            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-10 w-full">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/5 border border-white/10 transition-all duration-500 group-hover:border-white/[0.2] group-hover:bg-white/[0.1]">
+                <Layers className="h-8 w-8 text-axiom-ivory" />
               </div>
-              <h3 className="text-3xl lg:text-4xl font-display font-bold tracking-tight text-white mb-4">
-                Modular Architecture
-              </h3>
-            </div>
-            <div className="relative z-10 w-full text-left mt-auto">
-              <p className="text-neutral-400 leading-relaxed text-base max-w-2xl">
-                Atomic design system with composable components, centralized tokens, and barrel exports.
-              </p>
+              <div className="flex flex-col text-left">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold tracking-tight text-white mb-3">
+                  Modular Architecture
+                </h3>
+                <p className="text-neutral-400 leading-relaxed text-base max-w-2xl">
+                  Atomic design system with composable components, centralized tokens, and barrel exports.
+                </p>
+              </div>
             </div>
           </div>
 
