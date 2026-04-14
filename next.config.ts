@@ -61,6 +61,9 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  /* ── Dev Experience ─────────────────────────────────────── */
+  devIndicators: false,
+
   /* ── Performance ────────────────────────────────────────── */
   reactStrictMode: true,
   poweredByHeader: false,

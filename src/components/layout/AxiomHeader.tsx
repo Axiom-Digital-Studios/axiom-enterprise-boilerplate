@@ -1,4 +1,4 @@
-/* Axiom Digital Enterprise Boilerplate | Best or Nothing */
+/* Axiom Digital | Final Audit Verified | Best or Nothing */
 
 /**
  * AxiomHeader — Enterprise-grade responsive navigation system
@@ -38,7 +38,7 @@ export function AxiomHeader() {
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 right-0 z-[var(--z-nav)]"
+        className="fixed top-0 left-0 right-0 z-[var(--z-nav)] backdrop-blur-xl bg-black/40 border-b border-white/[0.03]"
         variants={navbarVariants}
         initial="top"
         animate={isScrolled ? 'scrolled' : 'top'}
@@ -49,7 +49,7 @@ export function AxiomHeader() {
         }}
       >
         <nav
-          className="axiom-container flex h-[var(--axiom-header-height)] items-center justify-between"
+          className="max-w-7xl mx-auto px-10 w-full flex h-[var(--axiom-header-height)] items-center justify-between"
           role="navigation"
           aria-label="Primary navigation"
         >
@@ -65,7 +65,7 @@ export function AxiomHeader() {
               transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             >
               <Hexagon
-                className="h-8 w-8 text-accent-primary transition-colors duration-300 group-hover:text-accent-hover"
+                className="h-8 w-8 text-accent-primary transition-colors duration-500 group-hover:text-accent-hover"
                 strokeWidth={1.5}
               />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -86,12 +86,12 @@ export function AxiomHeader() {
 
           {/* ── Desktop Navigation ────────────────────────── */}
           {!isMobile && (
-            <ul className="flex items-center gap-1">
+            <ul className="flex flex-1 justify-end items-center gap-8">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="group relative px-4 py-2 text-sm font-medium text-axiom-silver transition-colors duration-300 hover:text-axiom-ivory"
+                    className="group relative px-4 py-2 text-[13px] tracking-wider uppercase font-medium text-axiom-silver transition-colors duration-500 hover:text-axiom-ivory"
                   >
                     {item.label}
                     {/* Hover underline */}
@@ -109,7 +109,7 @@ export function AxiomHeader() {
               <li className="ml-4">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-accent-primary/30 bg-accent-muted px-5 py-2 text-sm font-medium text-accent-primary transition-all duration-300 hover:border-accent-primary/60 hover:bg-accent-primary/15 hover:shadow-glow"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-[13px] tracking-widest uppercase font-bold text-black transition-all duration-500 hover:scale-105 hover:shadow-glow"
                 >
                   Start Project
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -122,7 +122,7 @@ export function AxiomHeader() {
           {isMobile && (
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="relative z-50 flex h-10 w-10 items-center justify-center rounded-lg text-axiom-silver transition-colors duration-300 hover:text-axiom-ivory"
+              className="relative z-50 flex h-10 w-10 items-center justify-center rounded-lg text-axiom-silver transition-colors duration-500 hover:text-axiom-ivory"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
             >
@@ -175,7 +175,7 @@ export function AxiomHeader() {
                   <Link
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-2xl font-display font-semibold tracking-wide text-axiom-pearl transition-colors duration-300 hover:text-accent-primary"
+                    className="text-2xl font-display font-semibold tracking-wide text-axiom-pearl transition-colors duration-500 hover:text-accent-primary"
                   >
                     {item.label}
                   </Link>
@@ -185,7 +185,7 @@ export function AxiomHeader() {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="inline-flex items-center gap-2 rounded-full border border-accent-primary bg-accent-muted px-8 py-3 text-base font-medium text-accent-primary transition-all duration-300 hover:bg-accent-primary/20"
+                  className="inline-flex items-center gap-2 rounded-full border border-accent-primary bg-accent-muted px-8 py-3 text-base font-medium text-accent-primary transition-all duration-500 hover:bg-accent-primary/20"
                 >
                   Start Project
                   <ChevronRight className="h-4 w-4" />

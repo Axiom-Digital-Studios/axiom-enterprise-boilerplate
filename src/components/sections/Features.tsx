@@ -1,0 +1,181 @@
+/* Axiom Digital | Final Audit Verified | Best or Nothing */
+
+/**
+ * Features — Asymmetric Bento grid.
+ *
+ * Grid architecture:
+ *   - 3 columns on lg (lg:grid-cols-3)
+ *   - Card 0: col-span-2 row-span-2 — Dominant anchor block (left)
+ *   - Cards 1 & 2: col-span-1 — Two stacked squares (right)
+ *   - Card 3: col-span-3 — Full-width bottom banner
+ *
+ * Height + centering logic:
+ *   - h-full on every card share equal heights within their grid row
+ *   - flex items-center justify-center text-center = optical centering
+ *   - min-h floors prevent collapse at short content lengths
+ *   - The inner flex-col is what stacks icon over text vertically
+ */
+
+'use client';
+
+import { Shield, Zap, Globe, Layers } from 'lucide-react';
+import { PerformanceWrapper } from '@/components/layout/PerformanceWrapper';
+
+const features = [
+  {
+    icon: Zap,
+    title: 'Sub-Second Latency',
+    description:
+      'Every interaction is engineered for speed. Critical path optimization ensures instantaneous page loads.',
+  },
+  {
+    icon: Shield,
+    title: 'Enterprise Security',
+    description:
+      'Security headers, CSP policies, and HSTS preloading come pre-configured out of the box.',
+  },
+  {
+    icon: Globe,
+    title: 'Global Edge Delivery',
+    description:
+      'Optimized for CDN edge deployment with image compression, AVIF/WebP delivery, and smart caching.',
+  },
+  {
+    icon: Layers,
+    title: 'Modular Architecture',
+    description:
+      'Atomic design system with composable components, centralized tokens, and barrel exports.',
+  },
+];
+
+export function Features() {
+  return (
+    <PerformanceWrapper
+      as="section"
+      className="axiom-section"
+      id="features"
+    >
+      <div className="max-w-7xl mx-auto px-10 w-full">
+
+        {/* ── Section Header ─────────────────────────────────── */}
+        <div className="mb-20 flex flex-col items-center text-center">
+          <span className="text-xs uppercase tracking-[0.3em] text-neutral-500">
+            Core Capabilities
+          </span>
+          <h2 className="mt-4 text-4xl md:text-5xl font-display font-bold text-axiom-ivory leading-tight tracking-tight">
+            Engineered for Excellence
+          </h2>
+          <p className="mx-auto mt-5 max-w-lg text-axiom-steel leading-relaxed">
+            Every layer of the Axiom stack is purpose-built for performance,
+            security, and developer experience.
+          </p>
+        </div>
+
+        {/* ── Bento Grid ─────────────────────────────────────── */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          {/* ── Card 0: Dominant 2×2 anchor (left) ── */}
+          {/* items-center + justify-center = optical center of all that space */}
+          <div className="
+            group relative h-full flex flex-col items-center justify-center text-center
+            md:col-span-2 lg:row-span-2 min-h-[500px]
+            overflow-hidden rounded-3xl
+            border border-white/[0.05] bg-[#0A0A0A]
+            p-12 shadow-2xl
+            transition-all duration-500 hover:border-white/[0.15]
+          ">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+              <div className="flex items-center justify-center h-24 w-24 rounded-[1.5rem] border border-white/[0.06] bg-white/[0.03] transition-all duration-500 group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
+                <Zap className="h-10 w-10 text-axiom-ivory" />
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-4xl lg:text-5xl font-display font-bold tracking-tight text-white">
+                  Sub-Second Latency
+                </h3>
+                <p className="text-neutral-400 leading-relaxed text-lg max-w-sm mx-auto">
+                  Every interaction is engineered for speed. Critical path optimization ensures instantaneous page loads.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Card 1: Top-right square ── */}
+          <div className="
+            group relative h-full flex flex-col items-center justify-center text-center
+            lg:col-span-1 min-h-[240px]
+            overflow-hidden rounded-3xl
+            border border-white/[0.05] bg-[#0A0A0A]
+            p-10 shadow-2xl
+            transition-all duration-500 hover:border-white/[0.15]
+          ">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+              <div className="flex items-center justify-center h-14 w-14 rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-500 group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
+                <Shield className="h-6 w-6 text-axiom-ivory" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-display font-bold tracking-tight text-white">
+                  Enterprise Security
+                </h3>
+                <p className="text-neutral-400 leading-relaxed text-sm max-w-xs mx-auto">
+                  Security headers, CSP policies, and HSTS preloading come pre-configured out of the box.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Card 2: Bottom-right square ── */}
+          <div className="
+            group relative h-full flex flex-col items-center justify-center text-center
+            lg:col-span-1 min-h-[240px]
+            overflow-hidden rounded-3xl
+            border border-white/[0.05] bg-[#0A0A0A]
+            p-10 shadow-2xl
+            transition-all duration-500 hover:border-white/[0.15]
+          ">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+              <div className="flex items-center justify-center h-14 w-14 rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-500 group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
+                <Globe className="h-6 w-6 text-axiom-ivory" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-display font-bold tracking-tight text-white">
+                  Global Edge Delivery
+                </h3>
+                <p className="text-neutral-400 leading-relaxed text-sm max-w-xs mx-auto">
+                  Optimized for CDN edge deployment with image compression, AVIF/WebP delivery, and smart caching.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Card 3: Full-width bottom banner ── */}
+          {/* Horizontal layout: icon left, text right — both vertically centered */}
+          <div className="
+            group relative h-full flex flex-row items-center gap-8
+            md:col-span-2 lg:col-span-3 min-h-[180px]
+            overflow-hidden rounded-3xl
+            border border-white/[0.05] bg-[#0A0A0A]
+            px-12 py-10 shadow-2xl
+            transition-all duration-500 hover:border-white/[0.15]
+          ">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.025] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="relative z-10 flex items-center justify-center h-20 w-20 shrink-0 rounded-[1.25rem] border border-white/[0.06] bg-white/[0.03] transition-all duration-500 group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
+              <Layers className="h-8 w-8 text-axiom-ivory" />
+            </div>
+            <div className="relative z-10 flex flex-col space-y-2">
+              <h3 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-white">
+                Modular Architecture
+              </h3>
+              <p className="text-neutral-400 leading-relaxed text-base max-w-2xl">
+                Atomic design system with composable components, centralized tokens, and barrel exports.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </PerformanceWrapper>
+  );
+}

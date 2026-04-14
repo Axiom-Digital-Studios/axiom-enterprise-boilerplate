@@ -3,3 +3,4 @@
 /** Barrel export for section components. */
 
 export { HeroSection } from './HeroSection';
+export { Features } from './Features';

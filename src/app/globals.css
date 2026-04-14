@@ -91,6 +91,7 @@ body {
 }
 
 .axiom-section {
+  width: 100%;
   padding-block: var(--axiom-section-gap);
 }
 
